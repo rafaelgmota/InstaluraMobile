@@ -5,20 +5,29 @@ import {
 } from 'react-native';
 import Post from "./src/components/Post";
 
-const photos = [
-    {id: 1, user: 'Rafael'},
-    {id: 2, user: "Jorge"},
-    {id: 3, user: 'Irineu'},
-];
+const path = 'https://instalura-api.herokuapp.com';
 
 export default class App extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            posts: [],
+        };
+    }
+
+    componentDidMount() {
+        fetch(`${path}/api/public/fotos/rafael`)
+            .then(response => response.json())
+            .then(json => this.setState({posts: json}));
+    }
+
     render() {
         return (
             <FlatList style={styles.container}
                       keyExtractor={item => item.id}
-                      data={photos}
+                      data={this.state.posts}
                       renderItem={({item}) =>
-                          <Post item={item}/>
+                          <Post post={item}/>
                       }/>
         );
     }
