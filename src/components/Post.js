@@ -21,6 +21,7 @@ export default class Post extends React.Component {
         };
 
         this.like = this.like.bind(this);
+        this.addComment = this.addComment.bind(this);
     }
 
     like() {
@@ -69,6 +70,27 @@ export default class Post extends React.Component {
         );
     }
 
+    addComment() {
+        if(!this.state.commentText)
+            return;
+
+        const newList = [...this.state.post.comentarios,
+            {
+                id: this.state.commentText,
+                login: 'DummyUser',
+                texto: this.state.commentText,
+            }];
+
+        const updatedPost = {
+            ...this.state.post,
+            comentarios: newList,
+        };
+
+        this.setState({post: updatedPost, commentText: ''});
+
+        this.commentInput.clear();
+    }
+
     render() {
         const {post} = this.state;
         return (
@@ -95,8 +117,12 @@ export default class Post extends React.Component {
                 )}
 
                 <View style={styles.newComment}>
-                    <TextInput style={styles.input} placeholder="Adicione um comentário..."/>
-                    <Image style={styles.sendImage} source={require('../../resources/images/images.png')}/>
+                    <TextInput style={styles.input} placeholder="Adicione um comentário..."
+                               ref={input => this.commentInput = input}
+                               onChangeText={text => this.setState({commentText: text})}/>
+                    <TouchableOpacity onPress={this.addComment}>
+                        <Image style={styles.sendImage} source={require('../../resources/images/images.png')}/>
+                    </TouchableOpacity>
                 </View>
             </View>
         );
