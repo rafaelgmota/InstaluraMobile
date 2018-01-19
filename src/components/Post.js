@@ -24,10 +24,18 @@ export default class Post extends React.Component {
 
     like() {
 
+        const {likers, likeada} = this.state.post;
+        let newList = [];
+        if(!likeada) {
+            newList = likers.concat({login: 'DummyUser'});
+        } else {
+            newList = likers.filter(lk => lk.login !== 'DummyUser');
+        }
 
         const updatedPost = {
             ...this.state.post,
             likeada: !this.state.post.likeada,
+            likers: newList,
         };
         this.setState({post: updatedPost});
     }
@@ -71,7 +79,7 @@ export default class Post extends React.Component {
                 <Image source={{uri: post.urlFoto}} style={styles.postPicture}/>
 
                 <View style={styles.footer}>
-                    <TouchableOpacity onPress={this.like}>
+                    <TouchableOpacity style={styles.likeImage} onPress={this.like}>
                         <Image source={this.loadLike(post.likeada)} style={styles.likeImage}/>
                     </TouchableOpacity>
                 </View>
