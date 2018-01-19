@@ -6,6 +6,7 @@ import {
     Dimensions,
     StyleSheet,
     TouchableOpacity,
+    TextInput,
 } from 'react-native';
 
 const {width} = Dimensions.get('screen');
@@ -26,7 +27,7 @@ export default class Post extends React.Component {
 
         const {likers, likeada} = this.state.post;
         let newList = [];
-        if(!likeada) {
+        if (!likeada) {
             newList = likers.concat({login: 'DummyUser'});
         } else {
             newList = likers.filter(lk => lk.login !== 'DummyUser');
@@ -57,10 +58,10 @@ export default class Post extends React.Component {
     }
 
     showComment(post) {
-        if(!post.comentario)
+        if (!post.comentario)
             return;
 
-        return(
+        return (
             <View style={styles.comment}>
                 <Text style={styles.commentTitle}>{post.loginUsuario}</Text>
                 <Text>{post.comentario}</Text>
@@ -92,6 +93,11 @@ export default class Post extends React.Component {
                         <Text>{c.texto}</Text>
                     </View>
                 )}
+
+                <View style={styles.newComment}>
+                    <TextInput style={styles.input} placeholder="Adicione um comentário..."/>
+                    <Image style={styles.sendImage} source={require('../../resources/images/images.png')}/>
+                </View>
             </View>
         );
     }
@@ -130,5 +136,19 @@ const styles = StyleSheet.create({
     commentTitle: {
         fontWeight: 'bold',
         marginRight: 5,
+    },
+    newComment: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd',
+    },
+    input: {
+        height: 40,
+        flex: 1, //To fill available space
+    },
+    sendImage: {
+        height: 30,
+        width: 30,
     },
 });
