@@ -23,6 +23,8 @@ export default class Post extends React.Component {
     }
 
     like() {
+
+
         const updatedPost = {
             ...this.state.post,
             likeada: !this.state.post.likeada,
@@ -33,6 +35,29 @@ export default class Post extends React.Component {
     loadLike(liked) {
         return liked ? require('../../resources/images/s2-checked.png')
             : require('../../resources/images/s2.png');
+    }
+
+    showLikes(likers) {
+        if (!likers)
+            return;
+
+        return (
+            <Text style={styles.likes}>
+                {`${likers.length} ${likers.length > 1 ? "curtidas" : "curtida"}`}
+            </Text>
+        );
+    }
+
+    showComment(post) {
+        if(!post.comentario)
+            return;
+
+        return(
+            <View style={styles.comment}>
+                <Text style={styles.commentTitle}>{post.loginUsuario}</Text>
+                <Text>{post.comentario}</Text>
+            </View>
+        );
     }
 
     render() {
@@ -50,6 +75,8 @@ export default class Post extends React.Component {
                         <Image source={this.loadLike(post.likeada)} style={styles.likeImage}/>
                     </TouchableOpacity>
                 </View>
+                {this.showLikes(post.likers)}
+                {this.showComment(post)}
             </View>
         );
     }
@@ -77,5 +104,16 @@ const styles = StyleSheet.create({
     likeImage: {
         width: 40,
         height: 40,
+    },
+    likes: {
+        fontWeight: 'bold',
+        margin: 5,
+    },
+    comment: {
+        flexDirection: 'row',
+    },
+    commentTitle: {
+        fontWeight: 'bold',
+        marginRight: 5,
     },
 });
