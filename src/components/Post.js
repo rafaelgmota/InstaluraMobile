@@ -85,6 +85,13 @@ export default class Post extends React.Component {
                 </View>
                 {this.showLikes(post.likers)}
                 {this.showComment(post)}
+
+                {post.comentarios.map(c =>
+                    <View key={c.id} style={styles.comment}>
+                        <Text style={styles.commentTitle}>{c.login}</Text>
+                        <Text>{c.texto}</Text>
+                    </View>
+                )}
             </View>
         );
     }
